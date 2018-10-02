@@ -17,22 +17,37 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+    width: 48,
   },
 };
 
 class Topbar extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    showBackButton: PropTypes.bool,
+  };
+
+  renderBackButton() {
+    if (this.props.showBackButton) {
+      return (
+        <div className={this.props.classes.menuButton}>
+          <IconButton color="inherit" aria-label="Back">
+            <ArrowBack />
+          </IconButton>
+        </div>
+      );
+    } else {
+      return <div className={this.props.classes.menuButton} />;
+    }
+  }
+
   render() {
     return (
       <div className={this.props.classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              className={this.props.classes.menuButton}
-              color="inherit"
-              aria-label="Back"
-            >
-              <ArrowBack />
-            </IconButton>
+            {this.renderBackButton()}
             <Typography
               variant="title"
               color="inherit"
@@ -46,10 +61,5 @@ class Topbar extends Component {
     );
   }
 }
-
-Topbar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
-};
 
 export default withStyles(styles)(Topbar);
