@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
+import { db } from '../../common/config/firebase';
+
 class ShoppingLists extends Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
+  lists;
+
+  renderListItems() {
+    db.collection('lists').onSnapshot(snap => {
+      this.lists = [];
+
+      snap.forEach(doc => {
+        this.lists.push(doc.data().name);
+      });
+
+      console.log(this.lists);
+    });
+  }
 
   render() {
     return (
